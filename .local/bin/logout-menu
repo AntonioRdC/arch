@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+exec wlogout \
+    --layout "$config_dir/wlogout/layout" \
+    --css "$config_dir/wlogout/style.css" \
+    --buttons-per-row 2 \
+    --column-spacing 0 \
+    --row-spacing 0 \
+    --margin-left 650 \
+    --margin-right 650 \
+    --margin-top 320 \
+    --margin-bottom 320 \
+    --protocol layer-shell \
+    --no-span

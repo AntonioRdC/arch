@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+pkill -x rofi 2>/dev/null || rofi \
+    -show drun \
+    -theme "$HOME/.config/rofi/themes/launcher.rasi"

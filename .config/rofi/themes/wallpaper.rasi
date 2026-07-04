@@ -1,0 +1,73 @@
+configuration {
+    show-icons: true;
+    display-dmenu: "Wallpaper";
+    font: "JetBrainsMono Nerd Font 10";
+}
+
+@theme "catppuccin-base.rasi"
+
+window {
+    width: 100%;
+    location: center;
+    transparency: "real";
+    spacing: 0px;
+    padding: 0px;
+    background-color: transparent;
+    border: 0px;
+    border-radius: 0px;
+}
+
+mainbox {
+    children: [ "listview" ];
+    background-color: @panel-bg;
+}
+
+inputbar,
+prompt,
+entry {
+    enabled: false;
+    background-color: transparent;
+}
+
+listview {
+    columns: 6;
+    lines: 1;
+    spacing: 30px;
+    padding: 20px 30px;
+    scrollbar: false;
+    cycle: true;
+    dynamic: false;
+    fixed-height: true;
+    fixed-columns: true;
+    background-color: transparent;
+    text-color: @main-fg;
+}
+
+element {
+    orientation: vertical;
+    padding: 3px;
+    spacing: 0px;
+    border-radius: 20px;
+    background-color: transparent;
+    text-color: @main-fg;
+}
+
+element selected.normal {
+    background-color: @select-bg;
+    text-color: @select-fg;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 13em;
+    border-radius: 20px;
+    text-color: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    padding: 10px 0px 8px 0px;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}

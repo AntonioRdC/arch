@@ -1,0 +1,10 @@
+local settings = require("modules.settings")
+
+require("modules.env")(settings)
+require("modules.monitors")
+require("modules.startup")(settings)
+require("modules.look")
+require("modules.animations")
+require("modules.input")
+require("modules.keybinds")(settings)
+require("modules.rules")(settings)

@@ -1,0 +1,80 @@
+* {
+    background-image: none;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 18px;
+}
+
+window {
+    background-color: rgba(17, 17, 27, 0.18);
+}
+
+button {
+    color: #cdd6f4;
+    background-color: rgba(30, 30, 46, 0.88);
+    outline-style: none;
+    border: none;
+    border-width: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16%;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+    transition: all 0.24s cubic-bezier(.55, 0.0, .28, 1.682);
+}
+
+button:focus {
+    background-color: rgba(180, 190, 254, 0.82);
+    color: #11111b;
+    background-size: 20%;
+}
+
+button:hover {
+    background-color: rgba(203, 166, 247, 0.82);
+    color: #11111b;
+    background-size: 24%;
+}
+
+button:hover#lock {
+    border-radius: 72px 0 0 0;
+    margin: 8px 0 0 8px;
+}
+
+button:hover#logout {
+    border-radius: 0 0 0 72px;
+    margin: 0 0 8px 8px;
+}
+
+button:hover#shutdown {
+    border-radius: 0 72px 0 0;
+    margin: 8px 8px 0 0;
+}
+
+button:hover#reboot {
+    border-radius: 0 0 72px 0;
+    margin: 0 8px 8px 0;
+}
+
+#lock {
+    background-image: image(url("/home/ant/.config/wlogout/icons/lock_white.png"), url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+    border-radius: 80px 0 0 0;
+    margin: 24px 0 0 24px;
+}
+
+#logout {
+    background-image: image(url("/home/ant/.config/wlogout/icons/logout_white.png"), url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+    border-radius: 0 0 0 80px;
+    margin: 0 0 24px 24px;
+}
+
+#shutdown {
+    background-image: image(url("/home/ant/.config/wlogout/icons/shutdown_white.png"), url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+    border-radius: 0 80px 0 0;
+    margin: 24px 24px 0 0;
+}
+
+#reboot {
+    background-image: image(url("/home/ant/.config/wlogout/icons/reboot_white.png"), url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    border-radius: 0 0 80px 0;
+    margin: 0 24px 24px 0;
+}

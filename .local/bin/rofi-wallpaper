@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+export ROFI_WALLPAPER_THEME="$HOME/.config/rofi/themes/wallpaper.rasi"
+exec "$HOME/.local/bin/wallpaper" select

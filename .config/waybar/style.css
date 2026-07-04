@@ -1,0 +1,171 @@
+@import "themes/catppuccin-mocha.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font", "Noto Color Emoji", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(17, 17, 27, 0.34);
+    color: @text;
+}
+
+tooltip,
+tooltip.background {
+    background: rgba(17, 17, 27, 0.96);
+    border: 1px solid rgba(137, 180, 250, 0.35);
+    border-radius: 8px;
+}
+
+tooltip box {
+    background: transparent;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+tooltip label {
+    background: transparent;
+    color: @text;
+}
+
+menu {
+    background: rgba(17, 17, 27, 0.96);
+    border: 1px solid rgba(137, 180, 250, 0.35);
+    border-radius: 8px;
+    padding: 6px;
+}
+
+menuitem {
+    background: transparent;
+    border-radius: 6px;
+    color: @text;
+    padding: 6px 10px;
+}
+
+menuitem:hover {
+    background: @surface0;
+    color: @text;
+}
+
+menuitem label {
+    color: inherit;
+}
+
+menu separator {
+    background: @surface0;
+    margin: 4px 6px;
+    min-height: 1px;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 4px;
+}
+
+#cpu,
+#memory,
+#clock,
+#backlight,
+#pulseaudio,
+#tray,
+#battery,
+#custom-arch {
+    padding: 0 10px;
+    margin: 0 2px;
+    border-radius: 6px;
+}
+
+#cpu {
+    color: @pink;
+}
+
+#memory {
+    color: @red;
+}
+
+#custom-left-space {
+    padding: 0 14px;
+}
+
+#clock {
+    color: @rosewater;
+}
+
+#custom-arch {
+    color: @base;
+    font-size: 18px;
+    padding: 0 12px 0 10px;
+}
+
+#workspaces {
+    padding: 0 4px;
+}
+
+#workspaces button {
+    color: @overlay0;
+    background: transparent;
+    padding: 0 8px;
+    margin: 4px 1px;
+    border-radius: 6px;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#workspaces button.active {
+    color: @crust;
+    background: @rosewater;
+    margin: 4px 2px;
+}
+
+#workspaces button.urgent {
+    color: @crust;
+    background: @red;
+}
+
+#workspaces button:hover {
+    color: @overlay0;
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#backlight {
+    color: @red;
+}
+
+#pulseaudio {
+    color: @pink;
+}
+
+#pulseaudio.muted {
+    color: @red;
+}
+
+#tray {
+    padding: 0 8px;
+}
+
+#battery {
+    color: @green;
+}
+
+#battery.warning {
+    color: @peach;
+}
+
+#battery.critical {
+    color: @red;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @teal;
+}

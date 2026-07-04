@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DEFAULT_WALLPAPER_DIR="$HOME/Pictures/Wallpaper"
+if [[ ! -d "$DEFAULT_WALLPAPER_DIR" ]]; then
+    DEFAULT_WALLPAPER_DIR="$HOME/Pictures"
+fi
+
+WALLPAPER_DIR="${WALLPAPER_DIR:-$DEFAULT_WALLPAPER_DIR}"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/awww"
+STATE_FILE="$CACHE_DIR/current-wallpaper"
+THUMB_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/rofi-wallpaper"
+THUMB_VERSION="v2"
+HYDE_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/hyde"
+ROFI_THUMB="$HYDE_CACHE_DIR/wall.thmb"
+ROFI_BLUR="$HYDE_CACHE_DIR/wall.blur"
+
+mkdir -p "$CACHE_DIR"
+
+update_rofi_wallpaper_cache() {
+    local path="$1"
+
+    mkdir -p "$HYDE_CACHE_DIR"
+
+    if command -v magick >/dev/null 2>&1; then
+        magick "$path[0]" -strip -resize '1200x900^' -gravity center -extent 1200x900 "$ROFI_THUMB" 2>/dev/null || cp -f "$path" "$ROFI_THUMB"
+        magick "$path[0]" -strip -resize '1200x900^' -gravity center -extent 1200x900 -blur 0x18 "$ROFI_BLUR" 2>/dev/null || cp -f "$path" "$ROFI_BLUR"
+    else
+        cp -f "$path" "$ROFI_THUMB"
+        cp -f "$path" "$ROFI_BLUR"
+    fi
+}
+
+current_wallpaper() {
+    local current=""
+
+    if [[ -f "$STATE_FILE" ]]; then
+        current="$(<"$STATE_FILE")"
+    fi
+
+    if [[ ! -f "$current" ]] && command -v awww >/dev/null 2>&1; then
+        current="$(awww query 2>/dev/null | sed -n 's/.*image: //p' | head -n 1)"
+    fi
+
+    [[ -f "$current" ]] && printf '%s\n' "$current"
+}
+
+apply_wallpaper() {
+    local path="$1"
+
+    [[ -f "$path" ]] || exit 1
+
+    awww img "$path" \
+        --resize crop \
+        --transition-type grow \
+        --transition-duration 1 \
+        --transition-step 90 \
+        --transition-fps 60
+
+    printf '%s\n' "$(realpath "$path")" > "$STATE_FILE"
+    update_rofi_wallpaper_cache "$path"
+
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send "Wallpaper" "$(basename "$path")" -i "$path"
+    fi
+}
+
+collect_wallpapers() {
+    find "$WALLPAPER_DIR" -maxdepth 3 -type f \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \) \
+        ! -path '*/Screenshots/*' \
+        -print0 | sort -z
+}
+
+load_wallpapers() {
+    mapfile -d '' WALLPAPERS < <(collect_wallpapers)
+    [[ "${#WALLPAPERS[@]}" -gt 0 ]]
+}
+
+select_wallpaper() {
+    load_wallpapers
+
+    mkdir -p "$THUMB_DIR"
+
+    local current
+    current="$(current_wallpaper || true)"
+    [[ -n "$current" ]] && update_rofi_wallpaper_cache "$current"
+
+    local rofi_args=(-dmenu -i -p "Wallpaper" -show-icons -format i)
+    if [[ -n "${ROFI_WALLPAPER_THEME:-}" ]]; then
+        rofi_args+=(-theme "$ROFI_WALLPAPER_THEME")
+    fi
+
+    local choice thumb wall
+
+    choice=$(
+        {
+            for wall in "${WALLPAPERS[@]}"; do
+                thumb="$THUMB_DIR/$(printf '%s-%s\n' "$THUMB_VERSION" "$(stat -c '%n-%Y-%s' "$wall")" | sha256sum | cut -d ' ' -f 1).png"
+
+                if [[ ! -f "$thumb" ]]; then
+                    magick "$wall[0]" -strip -thumbnail '300x300^' -gravity center -extent 300x300 "$thumb" 2>/dev/null || thumb="$wall"
+                fi
+
+                printf '%s\x00icon\x1f%s\n' "$(basename "$wall")" "$thumb"
+            done
+        } | rofi "${rofi_args[@]}"
+    ) || exit 0
+
+    [[ -n "$choice" ]] || exit 0
+
+    apply_wallpaper "${WALLPAPERS[$choice]}"
+}
+
+case "${1:-select}" in
+    cache)
+        current="$(current_wallpaper || true)"
+        [[ -n "$current" ]] && update_rofi_wallpaper_cache "$current"
+        ;;
+    select)
+        select_wallpaper
+        ;;
+    set)
+        apply_wallpaper "${2:?missing wallpaper path}"
+        ;;
+    *)
+        printf 'Usage: %s {select|set <path>|cache}\n' "$0" >&2
+        exit 1
+        ;;
+esac

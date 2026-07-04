@@ -1,0 +1,13 @@
+* {
+    main-bg: #11111ba8;
+    panel-bg: #11111bc0;
+    main-fg: #cdd6f4ff;
+    main-br: #cba6f799;
+    main-ex: #f5e0dcff;
+    select-bg: #b4befeff;
+    select-fg: #11111bff;
+    card-bg: #f5f5f6e8;
+    card-fg: #5f667aff;
+    border-color: transparent;
+    separatorcolor: transparent;
+}
