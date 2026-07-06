@@ -77,3 +77,5 @@ fi
 
 source_if_exists "$HOME/.config/zsh/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
 source_if_exists /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export PATH=$PATH:/home/ant/.spicetify
